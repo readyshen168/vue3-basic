@@ -12,7 +12,7 @@ export default defineComponent({
     const count =  ref<string | number>(0)
     const user: Person = reactive({
       name: 'John Doe',
-      age: 25
+      age: 9
     })
     const increase = () => {
       if(typeof count.value === 'number') {
@@ -34,6 +34,9 @@ export default defineComponent({
     <h1>count: {{ count }}</h1>
     <h2>age: {{ user.age }}</h2>
     <button @click="increase">Increase</button>
+    <button :disabled="user.age < 10">
+      {{ user.age >= 10 ? '可以参加' : '不可以参加' }}
+    </button>
     <div class="card">
       <p>
         Edit
