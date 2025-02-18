@@ -1,16 +1,23 @@
 <script lang="ts">
 import { defineComponent, ref, reactive } from 'vue';
+interface Person {
+  name: string;
+  age: number;
+}
 
 export default defineComponent({
   name: 'App',
   setup() {
-    const count =  ref(0)
-    const user = reactive({
+    // 原始类型使用ref, 对象类型使用reactive
+    const count =  ref<string | number>(0)
+    const user: Person = reactive({
       name: 'John Doe',
       age: 25
     })
     const increase = () => {
-      count.value++
+      if(typeof count.value === 'number') {
+        count.value++
+      }
       user.age++
     }
     return {
