@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive } from 'vue';
+import { defineComponent, ref, reactive, computed } from 'vue';
 interface Person {
   name: string;
   age: number;
@@ -14,6 +14,12 @@ export default defineComponent({
       name: 'John Doe',
       age: 9
     })
+    const buttonStatus = computed(() => {
+      return {
+        text: user.age >= 10 ? '可以参加' : '不可以参加',
+        disabled: user.age < 10
+      }
+    })// 访问buttonStatus的值：buttonStatus.value
     const increase = () => {
       if(typeof count.value === 'number') {
         count.value++
@@ -23,7 +29,8 @@ export default defineComponent({
     return {
       count,
       increase,
-      user
+      user,
+      buttonStatus
     }
   }
 }); 
@@ -34,8 +41,8 @@ export default defineComponent({
     <h1>count: {{ count }}</h1>
     <h2>age: {{ user.age }}</h2>
     <button @click="increase">Increase</button>
-    <button :disabled="user.age < 10">
-      {{ user.age >= 10 ? '可以参加' : '不可以参加' }}
+    <button :disabled="buttonStatus.disabled">
+      {{ buttonStatus.text }}
     </button>
     <div class="card">
       <p>
