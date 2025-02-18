@@ -1,16 +1,22 @@
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, reactive } from 'vue';
 
 export default defineComponent({
   name: 'App',
   setup() {
     const count =  ref(0)
+    const user = reactive({
+      name: 'John Doe',
+      age: 25
+    })
     const increase = () => {
       count.value++
+      user.age++
     }
     return {
       count,
-      increase
+      increase,
+      user
     }
   }
 }); 
@@ -18,7 +24,8 @@ export default defineComponent({
 
 <template>
   <div>
-    <h1>{{ count }}</h1>
+    <h1>count: {{ count }}</h1>
+    <h2>age: {{ user.age }}</h2>
     <button @click="increase">Increase</button>
     <div class="card">
       <p>
