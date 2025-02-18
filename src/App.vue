@@ -1,9 +1,24 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+<script lang="ts">
+import { defineComponent, ref } from 'vue';
+
+export default defineComponent({
+  name: 'App',
+  setup() {
+    const count =  ref(0)
+    const increase = () => {
+      count.value++
+    }
+    return {
+      count,
+      increase
+    }
+  }
+}); 
 </script>
 
 <template>
   <div>
+    <h1>{{ count }}</h1>
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
