@@ -19,6 +19,13 @@ export default defineComponent({
 <template>
   <div>
     <h1>{{ count }}</h1>
+    <button @click="increase">Increase</button>
+    <div class="card">
+      <p>
+        Edit
+        <code>src/App.vue</code> to test HMR
+      </p>
+  </div>
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
