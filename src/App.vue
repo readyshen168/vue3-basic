@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive, computed } from 'vue';
+import { defineComponent, ref, reactive, computed, watch } from 'vue';
 interface Person {
   name: string;
   age: number;
@@ -20,6 +20,13 @@ export default defineComponent({
         disabled: user.age < 10
       }
     })// 访问buttonStatus的值：buttonStatus.value
+
+    // 监听器，在count值变化时触发
+    watch(count, (newValue, oldValue) => {
+      console.log('old count', oldValue)
+      console.log('new count', newValue)
+      document.title = `目前点击数是：${newValue}`
+    })
     const increase = () => {
       if(typeof count.value === 'number') {
         count.value++
