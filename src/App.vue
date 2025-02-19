@@ -10,18 +10,19 @@ export default defineComponent({
   setup() {
     // 原始类型使用ref, 对象类型使用reactive
     const count =  ref<string | number>(0)
+    const headline = ref<null | HTMLElement>(null) // 声明联合类型
     const user: Person = reactive({
       name: 'John Doe',
       age: 9
     })
-
+    console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
     onMounted(() => {
-      console.log('mounted')
+      console.log('mounted', headline.value?.innerHTML) //如果没有在ref中声明类型，这里会报错
     })
     onUpdated(() => {
       console.log('updated', document.getElementById('age')?.innerHTML)
     })
-    
+
     const buttonStatus = computed(() => {
       return {
         text: user.age >= 10 ? '可以参加' : '不可以参加',
@@ -47,7 +48,8 @@ export default defineComponent({
       count,
       increase,
       user,
-      buttonStatus
+      buttonStatus,
+      headline
     }
   }
 }); 
@@ -56,7 +58,7 @@ export default defineComponent({
 <template>
   <div>
     <h1>count: {{ count }}</h1>
-    <h2 id="age">age: {{ user.age }}</h2>
+    <h2 id="age" ref="headline">age: {{ user.age }}</h2>
     <button @click="increase">Increase</button>
     <button :disabled="buttonStatus.disabled">
       {{ buttonStatus.text }}
