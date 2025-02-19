@@ -26,7 +26,8 @@ export default defineComponent({
       console.log('old age', oldValue)
       console.log('new age', newValue)
       document.title = `目前点击数是：${newValue[0]}`
-    }, { immediate: true })// immediate: true表示立即执行一次
+      console.log('the dom', document.getElementById('age')?.innerHTML)
+    }, { flush: 'post' })// 默认是pre, 回调函数默认在视图更新前执行
 
     const increase = () => {
       if(typeof count.value === 'number') {
@@ -47,7 +48,7 @@ export default defineComponent({
 <template>
   <div>
     <h1>count: {{ count }}</h1>
-    <h2>age: {{ user.age }}</h2>
+    <h2 id="age">age: {{ user.age }}</h2>
     <button @click="increase">Increase</button>
     <button :disabled="buttonStatus.disabled">
       {{ buttonStatus.text }}
