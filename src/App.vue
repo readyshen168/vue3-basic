@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, watch } from 'vue';
+import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated } from 'vue';
 interface Person {
   name: string;
   age: number;
@@ -14,6 +14,14 @@ export default defineComponent({
       name: 'John Doe',
       age: 9
     })
+
+    onMounted(() => {
+      console.log('mounted')
+    })
+    onUpdated(() => {
+      console.log('updated', document.getElementById('age')?.innerHTML)
+    })
+    
     const buttonStatus = computed(() => {
       return {
         text: user.age >= 10 ? '可以参加' : '不可以参加',
