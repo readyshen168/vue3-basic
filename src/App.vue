@@ -1,5 +1,5 @@
 <script lang="ts">
-import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated } from 'vue';
+import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
 interface Person {
   name: string;
   age: number;
@@ -10,7 +10,8 @@ export default defineComponent({
   setup() {
     // 原始类型使用ref, 对象类型使用reactive
     const count =  ref<string | number>(0)
-    const headline = ref<null | HTMLElement>(null) // 声明联合类型
+    // const headline = ref<null | HTMLElement>(null) // 声明联合类型
+    const headline = useTemplateRef<null | HTMLElement>('headline') // 使用useTemplateRef
     const user: Person = reactive({
       name: 'John Doe',
       age: 9
