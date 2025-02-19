@@ -26,7 +26,8 @@ export default defineComponent({
       console.log('old age', oldValue)
       console.log('new age', newValue)
       document.title = `目前点击数是：${newValue[0]}`
-    })
+    }, { immediate: true })// immediate: true表示立即执行一次
+
     const increase = () => {
       if(typeof count.value === 'number') {
         count.value++
