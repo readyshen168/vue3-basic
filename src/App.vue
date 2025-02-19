@@ -21,11 +21,11 @@ export default defineComponent({
       }
     })// 访问buttonStatus的值：buttonStatus.value
 
-    // 监听Reactive, getter function
-    watch(() => user.age, (newValue, oldValue) => {
+    // 监听数组：
+    watch([count, () => user.age], (newValue, oldValue) => {
       console.log('old age', oldValue)
       console.log('new age', newValue)
-      document.title = `目前点击数是：${newValue}`
+      document.title = `目前点击数是：${newValue[0]}`
     })
     const increase = () => {
       if(typeof count.value === 'number') {
