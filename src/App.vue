@@ -21,10 +21,10 @@ export default defineComponent({
       }
     })// 访问buttonStatus的值：buttonStatus.value
 
-    // 监听器，在count值变化时触发
-    watch(count, (newValue, oldValue) => {
-      console.log('old count', oldValue)
-      console.log('new count', newValue)
+    // 监听Reactive, getter function
+    watch(() => user.age, (newValue, oldValue) => {
+      console.log('old age', oldValue)
+      console.log('new age', newValue)
       document.title = `目前点击数是：${newValue}`
     })
     const increase = () => {
@@ -64,7 +64,6 @@ export default defineComponent({
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div>
-  <HelloWorld msg="Vite + Vue" />
 </template>
 
 <style scoped>
