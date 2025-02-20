@@ -2,6 +2,7 @@
 import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
 import MyProfile from './components/MyProfile.vue';
 import useMousePosition from './hooks/useMousePosition';
+import useURLLoader from './hooks/useURLLoader';
 
 interface Person {
   name: string;
@@ -25,6 +26,9 @@ export default defineComponent({
     })
 
     const { x, y } = useMousePosition()
+
+    // data:
+    const data = useURLLoader('https://dog.ceo/api/breeds/image/random')
 
     console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
     onMounted(() => {
@@ -69,7 +73,8 @@ export default defineComponent({
       headline,
       onChange,
       x,
-      y
+      y,
+      data
     }
   }
 }); 
@@ -90,12 +95,12 @@ export default defineComponent({
     <h1>X: {{ x }}</h1>
     <h1>Y: {{ y }}</h1>
 
-    <div class="card">
-      <p>
-        Edit
-        <code>src/App.vue</code> to test HMR
-      </p>
-  </div>
+    <div class="dog">
+      <h1>Dog >></h1>
+      <h1 v-if="data.loading"> loading... </h1>
+      <img v-else :src="data.result.message"/>
+    </div>
+
     <a href="https://vite.dev" target="_blank">
       <img src="/vite.svg" class="logo" alt="Vite logo" />
     </a>
@@ -117,5 +122,9 @@ export default defineComponent({
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+.dog img{
+  width:100%;
+  margin-top: 20px;
 }
 </style>
