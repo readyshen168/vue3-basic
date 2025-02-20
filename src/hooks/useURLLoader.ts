@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { reactive, toRefs } from 'vue';
 
-interface IResult {
-    result: any;
+interface IResult<T> {
+    result: T | null;
     loading:boolean;
     error:any; 
 }
-function useURLLoader(url: string){
+function useURLLoader<T>(url: string){
 
-    const data: IResult = reactive({
+    const data: IResult<T> = reactive({
         result: null,
         loading: true,
         error: null
