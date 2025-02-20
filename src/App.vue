@@ -14,6 +14,10 @@ interface DogResult {
   status: string;
 }
 
+interface todoResult {
+  title: string;
+}
+
 export default defineComponent({
   name: 'App',
   // 需要注册子组件
@@ -33,7 +37,10 @@ export default defineComponent({
     const { x, y } = useMousePosition()
 
     // data:
-    const { result, loading } = useURLLoader<DogResult>('https://dog.ceo/api/breeds/image/random')
+    const dogURL = 'https://dog.ceo/api/breeds/image/random'
+    const todoURL = 'https://jsonplaceholder.typicode.com/todos/1'
+    //const { result, loading } = useURLLoader<DogResult>(dogURL)
+    const { result, loading } = useURLLoader<todoResult>(todoURL)
 
     console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
     onMounted(() => {
@@ -104,7 +111,7 @@ export default defineComponent({
     <div class="dog">
       <h1>Dog >></h1>
       <h1 v-if="loading"> loading... </h1>
-      <img v-if="!loading && result" :src="result.message"/>
+      <h1 class = "result" v-if="!loading && result">{{ result.title }}</h1>
     </div>
 
     <a href="https://vite.dev" target="_blank">
@@ -129,8 +136,9 @@ export default defineComponent({
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }
-.dog img{
+.dog .result {
   width:100%;
+  text-align: center;
   margin-top: 20px;
 }
 </style>
