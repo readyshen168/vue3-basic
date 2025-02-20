@@ -28,7 +28,7 @@ export default defineComponent({
     const { x, y } = useMousePosition()
 
     // data:
-    const data = useURLLoader('https://dog.ceo/api/breeds/image/random')
+    const { result, loading } = useURLLoader('https://dog.ceo/api/breeds/image/random')
 
     console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
     onMounted(() => {
@@ -74,7 +74,8 @@ export default defineComponent({
       onChange,
       x,
       y,
-      data
+      result,
+      loading
     }
   }
 }); 
@@ -97,8 +98,8 @@ export default defineComponent({
 
     <div class="dog">
       <h1>Dog >></h1>
-      <h1 v-if="data.loading"> loading... </h1>
-      <img v-else :src="data.result.message"/>
+      <h1 v-if="loading"> loading... </h1>
+      <img v-else :src="result.message"/>
     </div>
 
     <a href="https://vite.dev" target="_blank">

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { reactive } from 'vue';
+import { reactive, toRefs } from 'vue';
 
 interface IResult {
     result: any;
@@ -27,7 +27,7 @@ function useURLLoader(url: string){
             data.loading = false;     
         }
     );
-    return data
+    return toRefs(data)
 
 }
 
