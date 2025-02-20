@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-    import { type PropType, computed, ref } from 'vue';
+    import { computed, ref } from 'vue';
     interface IPerson {
         name: string;
         age: number;
@@ -21,9 +21,11 @@
     //     }
     // });
 
-    const props = defineProps<{
+    const props = withDefaults(defineProps<{
         user: IPerson
-    }>();
+    }>(),{
+        user: () => ({ name: 'viking', age: 18 })
+    });
 
     const emit = defineEmits(['change']);
 
@@ -32,6 +34,7 @@
         hidden.value = !hidden.value;
         emit('change', hidden.value);
     }
+
     const doubleAge = computed(() => props.user.age * 2);
 </script>
 

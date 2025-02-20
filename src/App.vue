@@ -82,7 +82,7 @@
       {{ buttonStatus.text }}
     </button>
 
-    <MyProfile :user="user" @change="onChange"/>
+    <MyProfile @change="onChange"/>
     <!-- :age后面可以传入js表达式，:age="20"，“20”也算是js表达式，但如果是“name”就不是-->
 
     <h1>X: {{ x }}</h1>
