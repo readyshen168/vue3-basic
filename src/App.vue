@@ -51,12 +51,19 @@ export default defineComponent({
       }
       user.age++
     }
+
+    const onChange = (hidden: boolean) => {
+      document.title = hidden ? 'hidden' : 'show'
+
+    }
+
     return {
       count,
       increase,
       user,
       buttonStatus,
-      headline
+      headline,
+      onChange
     }
   }
 }); 
@@ -71,7 +78,7 @@ export default defineComponent({
       {{ buttonStatus.text }}
     </button>
 
-    <MyProfile :user="user" />
+    <MyProfile :user="user" @change="onChange"/>
     <!-- :age后面可以传入js表达式，:age="20"，“20”也算是js表达式，但如果是“name”就不是-->
 
     <div class="card">
