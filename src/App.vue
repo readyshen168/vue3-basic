@@ -9,6 +9,11 @@ interface Person {
   age: number;
 }
 
+interface DogResult {
+  message: string;
+  status: string;
+}
+
 export default defineComponent({
   name: 'App',
   // 需要注册子组件
@@ -28,7 +33,7 @@ export default defineComponent({
     const { x, y } = useMousePosition()
 
     // data:
-    const { result, loading } = useURLLoader('https://dog.ceo/api/breeds/image/random')
+    const { result, loading } = useURLLoader<DogResult>('https://dog.ceo/api/breeds/image/random')
 
     console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
     onMounted(() => {
@@ -99,7 +104,7 @@ export default defineComponent({
     <div class="dog">
       <h1>Dog >></h1>
       <h1 v-if="loading"> loading... </h1>
-      <img v-else :src="result.message"/>
+      <img v-else :src="result?.message"/>
     </div>
 
     <a href="https://vite.dev" target="_blank">
