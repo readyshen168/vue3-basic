@@ -104,7 +104,7 @@ export default defineComponent({
     <div class="dog">
       <h1>Dog >></h1>
       <h1 v-if="loading"> loading... </h1>
-      <img v-else :src="result?.message"/>
+      <img v-if="!loading && result" :src="result.message"/>
     </div>
 
     <a href="https://vite.dev" target="_blank">
