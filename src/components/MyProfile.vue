@@ -14,12 +14,16 @@
         age: number;
     }
 
-    const props = defineProps({
-        user: {
-            type: Object as PropType<IPerson>,
-            required: true
-        }
-    });
+    // const props = defineProps({
+    //     user: {
+    //         type: Object as PropType<IPerson>,
+    //         required: true
+    //     }
+    // });
+
+    const props = defineProps<{
+        user: IPerson
+    }>();
 
     const emit = defineEmits(['change']);
 
