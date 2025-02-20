@@ -7,41 +7,28 @@
     </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
-import type { PropType } from 'vue';
+<script setup lang="ts">
+    import { type PropType, computed, ref } from 'vue';
+    interface IPerson {
+        name: string;
+        age: number;
+    }
 
-interface Person {
-  name: string;
-  age: number;
-}
-
-    export default defineComponent({
-        name: 'MyProfile',
-        props: {
-            user:{
-                type: Object as PropType<Person>,
-                required: true
-
-            }
-        },
-
-        emits: ['change'],
-        setup(props, ctx) {
-            const hidden = ref(false);
-            const toggleHidden = () => {
-                hidden.value = !hidden.value;
-                ctx.emit('change', hidden.value);
-            }
-            const doubleAge = computed(() => props.user.age * 2);
-            return {
-                doubleAge,
-                toggleHidden,
-                hidden
-            }
+    const props = defineProps({
+        user: {
+            type: Object as PropType<IPerson>,
+            required: true
         }
-    })
+    });
 
+    const emit = defineEmits(['change']);
+
+    const hidden = ref(false);
+    const toggleHidden = () => {
+        hidden.value = !hidden.value;
+        emit('change', hidden.value);
+    }
+    const doubleAge = computed(() => props.user.age * 2);
 </script>
 
 
