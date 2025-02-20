@@ -14,6 +14,10 @@
         age: number;
     }
 
+    interface IEvents {
+        (e:'change', hidden: boolean): void;
+    }
+
     // const props = defineProps({
     //     user: {
     //         type: Object as PropType<IPerson>,
@@ -27,7 +31,7 @@
         user: () => ({ name: 'viking', age: 18 })
     });
 
-    const emit = defineEmits(['change']);
+    const emit = defineEmits<IEvents>();
 
     const hidden = ref(false);
     const toggleHidden = () => {
