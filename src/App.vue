@@ -1,5 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
+//import Myprofile from ./components/Myprofile
 interface Person {
   name: string;
   age: number;
@@ -64,6 +65,9 @@ export default defineComponent({
     <button :disabled="buttonStatus.disabled">
       {{ buttonStatus.text }}
     </button>
+
+    <MyProfile />
+
     <div class="card">
       <p>
         Edit
