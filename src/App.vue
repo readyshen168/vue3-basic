@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
 import MyProfile from './components/MyProfile.vue';
+
 interface Person {
   name: string;
   age: number;
@@ -70,7 +71,8 @@ export default defineComponent({
       {{ buttonStatus.text }}
     </button>
 
-    <MyProfile :name="user.name" :age="user.age" />
+    <MyProfile :user="user" />
+    <!-- :age后面可以传入js表达式，:age="20"，“20”也算是js表达式，但如果是“name”就不是-->
 
     <div class="card">
       <p>
