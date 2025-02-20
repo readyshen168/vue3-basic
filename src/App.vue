@@ -22,6 +22,7 @@ export default defineComponent({
       name: 'John Doe',
       age: 9
     })
+    const hidden = ref(false)
     const X = ref(0)
     const Y = ref(0)
 
@@ -61,8 +62,9 @@ export default defineComponent({
       user.age++
     }
 
-    const onChange = (hidden: boolean) => {
-      document.title = hidden ? 'hidden' : 'show'
+    const onChange = () => {
+      hidden.value = !hidden.value
+      document.title = hidden.value ? 'hidden' : 'show'
 
     }
 
@@ -73,6 +75,7 @@ export default defineComponent({
       buttonStatus,
       headline,
       onChange,
+      hidden,
       X,
       Y
     }
@@ -89,7 +92,8 @@ export default defineComponent({
       {{ buttonStatus.text }}
     </button>
 
-    <MyProfile :user="user" @change="onChange"/>
+    <MyProfile :user="user" :hidden="hidden"/>
+    <button @click="onChange">{{ hidden? "display" : "hide" }}</button>
     <!-- :age后面可以传入js表达式，:age="20"，“20”也算是js表达式，但如果是“name”就不是-->
 
     <h1>X: {{ X }}</h1>

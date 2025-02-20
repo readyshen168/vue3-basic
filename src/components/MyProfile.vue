@@ -3,12 +3,11 @@
         <h1>{{ user.name }}</h1>
         <h1 v-show="!hidden">{{ user.age }}</h1>
         <h1>{{ doubleAge }}</h1>
-        <button @click="toggleHidden">{{ hidden? "显示" : "隐藏" }}</button>
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, ref } from 'vue';
+import { defineComponent, computed } from 'vue';
 import type { PropType } from 'vue';
 
 interface Person {
@@ -23,21 +22,19 @@ interface Person {
                 type: Object as PropType<Person>,
                 required: true
 
+            },
+            hidden:{
+                type: Boolean,
+                required: false
             }
         },
 
         emits: ['change'],
-        setup(props, ctx) {
-            const hidden = ref(false);
-            const toggleHidden = () => {
-                hidden.value = !hidden.value;
-                ctx.emit('change', hidden.value);
-            }
+        setup(props) {
             const doubleAge = computed(() => props.user.age * 2);
             return {
                 doubleAge,
-                toggleHidden,
-                hidden
+             
             }
         }
     })
