@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
-//import Myprofile from ./components/Myprofile
+import MyProfile from './components/MyProfile.vue';
 interface Person {
   name: string;
   age: number;
@@ -8,6 +8,10 @@ interface Person {
 
 export default defineComponent({
   name: 'App',
+  // 需要注册子组件
+  components:{
+    MyProfile
+  },
   setup() {
     // 原始类型使用ref, 对象类型使用reactive
     const count =  ref<string | number>(0)
@@ -66,7 +70,7 @@ export default defineComponent({
       {{ buttonStatus.text }}
     </button>
 
-    <MyProfile />
+    <MyProfile :name="user.name" :age="user.age" />
 
     <div class="card">
       <p>
