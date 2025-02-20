@@ -1,5 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
+import MyProfile from './components/MyProfile.vue';
+
 interface Person {
   name: string;
   age: number;
@@ -7,6 +9,10 @@ interface Person {
 
 export default defineComponent({
   name: 'App',
+  // 需要注册子组件
+  components:{
+    MyProfile
+  },
   setup() {
     // 原始类型使用ref, 对象类型使用reactive
     const count =  ref<string | number>(0)
@@ -16,9 +22,18 @@ export default defineComponent({
       name: 'John Doe',
       age: 9
     })
+    const X = ref(0)
+    const Y = ref(0)
+
+    const mouseOnclick = (e: MouseEvent) => {
+      X.value = e.pageX
+      Y.value = e.pageY
+    }
     console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
     onMounted(() => {
       console.log('mounted', headline.value?.innerHTML) //如果没有在ref中声明类型，这里会报错
+      // 捕捉鼠标事件并执行回调函数：
+      document.addEventListener("click", mouseOnclick)
     })
     onUpdated(() => {
       console.log('updated', document.getElementById('age')?.innerHTML)
@@ -45,12 +60,21 @@ export default defineComponent({
       }
       user.age++
     }
+
+    const onChange = (hidden: boolean) => {
+      document.title = hidden ? 'hidden' : 'show'
+
+    }
+
     return {
       count,
       increase,
       user,
       buttonStatus,
-      headline
+      headline,
+      onChange,
+      X,
+      Y
     }
   }
 }); 
@@ -64,6 +88,13 @@ export default defineComponent({
     <button :disabled="buttonStatus.disabled">
       {{ buttonStatus.text }}
     </button>
+
+    <MyProfile :user="user" @change="onChange"/>
+    <!-- :age后面可以传入js表达式，:age="20"，“20”也算是js表达式，但如果是“name”就不是-->
+
+    <h1>X: {{ X }}</h1>
+    <h1>X: {{ Y }}</h1>
+
     <div class="card">
       <p>
         Edit
