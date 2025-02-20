@@ -1,96 +1,76 @@
-<script lang="ts">
-import { defineComponent, ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
-import MyProfile from './components/MyProfile.vue';
-import useMousePosition from './hooks/useMousePosition';
-import useURLLoader from './hooks/useURLLoader';
+<script setup lang="ts">
+  import { ref, reactive, computed, watch, onMounted, onUpdated, useTemplateRef } from 'vue';
+  import MyProfile from './components/MyProfile.vue';
+  import useMousePosition from './hooks/useMousePosition';
+  import useURLLoader from './hooks/useURLLoader';
 
-interface Person {
-  name: string;
-  age: number;
-}
-
-interface DogResult {
-  message: string;
-  status: string;
-}
-
-interface todoResult {
-  title: string;
-}
-
-export default defineComponent({
-  name: 'App',
-  // 需要注册子组件
-  components:{
-    MyProfile
-  },
-  setup() {
-    // 原始类型使用ref, 对象类型使用reactive
-    const count =  ref<string | number>(0)
-    // const headline = ref<null | HTMLElement>(null) // 声明联合类型
-    const headline = useTemplateRef<null | HTMLElement>('headline') // 使用useTemplateRef
-    const user: Person = reactive({
-      name: 'John Doe',
-      age: 9
-    })
-
-    const { x, y } = useMousePosition()
-
-    // data:
-    const dogURL = 'https://dog.ceo/api/breeds/image/random'
-    const todoURL = 'https://jsonplaceholder.typicode.com/todos/1'
-    //const { result, loading } = useURLLoader<DogResult>(dogURL)
-    const { result, loading } = useURLLoader<todoResult>(todoURL)
-
-    console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
-    onMounted(() => {
-      console.log('mounted', headline.value?.innerHTML) //如果没有在ref中声明类型，这里会报错
-    })
-    onUpdated(() => {
-      console.log('updated', document.getElementById('age')?.innerHTML)
-    })
-
-    const buttonStatus = computed(() => {
-      return {
-        text: user.age >= 10 ? '可以参加' : '不可以参加',
-        disabled: user.age < 10
-      }
-    })// 访问buttonStatus的值：buttonStatus.value
-
-    // 监听数组：
-    watch([count, () => user.age], (newValue, oldValue) => {
-      console.log('old age', oldValue)
-      console.log('new age', newValue)
-      document.title = `目前点击数是：${newValue[0]}`
-      console.log('the dom', document.getElementById('age')?.innerHTML)
-    }, { flush: 'post' })// 默认是pre, 回调函数默认在视图更新前执行
-
-    const increase = () => {
-      if(typeof count.value === 'number') {
-        count.value++
-      }
-      user.age++
-    }
-
-    const onChange = (hidden: boolean) => {
-      document.title = hidden ? 'hidden' : 'show'
-
-    }
-
-    return {
-      count,
-      increase,
-      user,
-      buttonStatus,
-      headline,
-      onChange,
-      x,
-      y,
-      result,
-      loading
-    }
+  interface Person {
+    name: string;
+    age: number;
   }
-}); 
+
+  interface DogResult {
+    message: string;
+    status: string;
+  }
+
+  interface todoResult {
+    title: string;
+  }
+
+
+  // 原始类型使用ref, 对象类型使用reactive
+  const count =  ref<string | number>(0)
+  // const headline = ref<null | HTMLElement>(null) // 声明联合类型
+  const headline = useTemplateRef<null | HTMLElement>('headline') // 使用useTemplateRef
+  const user: Person = reactive({
+    name: 'John Doe',
+    age: 9
+  })
+
+  const { x, y } = useMousePosition()
+
+  // data:
+  const dogURL = 'https://dog.ceo/api/breeds/image/random'
+  const todoURL = 'https://jsonplaceholder.typicode.com/todos/1'
+  //const { result, loading } = useURLLoader<DogResult>(dogURL)
+  const { result, loading } = useURLLoader<todoResult>(todoURL)
+
+  console.log('in setup', headline.value) // 在mounted之前，模板还没有渲染，所以headline的值是null
+  onMounted(() => {
+    console.log('mounted', headline.value?.innerHTML) //如果没有在ref中声明类型，这里会报错
+  })
+  onUpdated(() => {
+    console.log('updated', document.getElementById('age')?.innerHTML)
+  })
+
+  const buttonStatus = computed(() => {
+    return {
+      text: user.age >= 10 ? '可以参加' : '不可以参加',
+      disabled: user.age < 10
+    }
+  })// 访问buttonStatus的值：buttonStatus.value
+
+  // 监听数组：
+  watch([count, () => user.age], (newValue, oldValue) => {
+    console.log('old age', oldValue)
+    console.log('new age', newValue)
+    document.title = `目前点击数是：${newValue[0]}`
+    console.log('the dom', document.getElementById('age')?.innerHTML)
+  }, { flush: 'post' })// 默认是pre, 回调函数默认在视图更新前执行
+
+  const increase = () => {
+    if(typeof count.value === 'number') {
+      count.value++
+    }
+    user.age++
+  }
+
+  const onChange = (hidden: boolean) => {
+    document.title = hidden ? 'hidden' : 'show'
+
+  }
+
 </script>
 
 <template>
